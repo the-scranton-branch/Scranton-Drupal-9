@@ -11,3 +11,18 @@ protected_web_paths:
   - /private/
   - /sites/default/files/private/
   - /sites/default/files/config/
+
+# Quicksilver Workflows on site creation
+workflows:
+  # New site creation
+  deploy_product:
+    after:
+      - description: "Install Drupal core"
+        script: private/scripts/drush_site_install/drush_site_install.php
+        type: webphp
+      - description: "Authenticate Lockr"
+        script: private/scripts/lockr_auth/lockr_auth.php
+        type: webphp
+      - description: "Post to Slack after each deploy"
+        script: private/scripts/slack-notification.php
+        type: webphp
