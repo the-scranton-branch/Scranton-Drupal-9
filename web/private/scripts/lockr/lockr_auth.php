@@ -14,10 +14,6 @@ if (!empty($_ENV['PANTHEON_ENVIRONMENT']) && in_array($_ENV['PANTHEON_ENVIRONMEN
     // Assign token
     $token = $secrets['lockr']['token'];
 
-    echo "Enabling Lockr...\n";
-    passthru('drush en lockr -y');
-    echo "\n";
-
     echo "Running Lockr authentication...\n";
     passthru('drush lockr:register-token ' . $token);
     echo "Lockr auth complete.\n";
