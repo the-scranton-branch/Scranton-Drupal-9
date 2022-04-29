@@ -9,7 +9,6 @@ if (!empty($_ENV['PANTHEON_ENVIRONMENT']) && in_array($_ENV['PANTHEON_ENVIRONMEN
 
     // Get secrets
     $secrets = json_decode(file_get_contents('https://dev-dunder-mifflin-legacy-site.pantheonsite.io/quicksilver.php?name=scranton-drupal-9'), 1);
-    var_dump($secrets);
 
     // Assign token
     $token = $secrets['lockr']['token'];
