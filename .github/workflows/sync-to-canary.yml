@@ -27,7 +27,7 @@ jobs:
           curl -L https://github.com/pantheon-systems/terminus/releases/download/3.0.6/terminus.phar --output terminus
           chmod +x terminus
           ./terminus self:update
-          echo "~/terminus" >> $GITHUB_PATH
+          echo "$PWD" >> $GITHUB_PATH
           terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}
         env:
           PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
