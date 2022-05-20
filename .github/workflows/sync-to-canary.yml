@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Installing PHP
+        uses: shivammathur/setup-php@2.18.1
+        with:
+          php-version: '8.0'
+          coverage: none
+
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.PANTHEON_SSH_KEY }}
@@ -16,9 +22,15 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: Installing Terminus
-        uses: kopepasah/setup-pantheon-terminus@master
-        with:
-          pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+        run: |
+          mkdir -p ~/terminus && cd ~/terminus
+          curl -L https://github.com/pantheon-systems/terminus/releases/download/3.0.6/terminus.phar --output terminus
+          chmod +x terminus
+          ./terminus self:update
+          echo "~/terminus" >> $GITHUB_PATH
+          terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}
+        env:
+          PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
 
       - name: Get Canary site
         run: |
