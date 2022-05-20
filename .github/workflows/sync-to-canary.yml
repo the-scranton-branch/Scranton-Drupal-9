@@ -28,14 +28,14 @@ jobs:
           chmod +x terminus
           ./terminus self:update
           echo "$PWD" >> $GITHUB_PATH
-          terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}
+          ~/terminus/terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}
         env:
           PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
 
       - name: Get Canary site
         run: |
-          echo "CANARY_SITE=$(terminus org:site:list ${ORG_UUID} --format list --upstream ${UPSTREAM_UUID} --field name --tag canary)" >> $GITHUB_ENV
-          echo "CANARY_REPO=$(term connection:info ${CANARY_SITE}.dev --fields git_url --format list) >> $GITHUB_ENV
+          echo "CANARY_SITE=$(~/terminus/terminus org:site:list ${ORG_UUID} --format list --upstream ${UPSTREAM_UUID} --field name --tag canary)" >> $GITHUB_ENV
+          echo "CANARY_REPO=$(~/terminus/terminus connection:info ${CANARY_SITE}.dev --fields git_url --format list)" >> $GITHUB_ENV
         env:
           ORG_UUID: ${{ secrets.PANTHEON_ORG_UUID }}
           UPSTREAM_UUID: ${{ secrets.PANTHEON_UPSTREAM_UUID }}
