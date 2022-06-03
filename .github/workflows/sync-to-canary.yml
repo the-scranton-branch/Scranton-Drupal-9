@@ -45,6 +45,6 @@ jobs:
           
           BASE_BRANCH=${GITHUB_REF##*/}
           git remote add pantheon $CANARY_REPO
-          git pull pantheon HEAD:refs/heads/$BASE_BRANCH --rebase
+          git pull pantheon $BASE_BRANCH --rebase
           git push -u pantheon HEAD:refs/heads/$BASE_BRANCH
           terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
