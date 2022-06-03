@@ -22,8 +22,10 @@ jobs:
 
       - name: Get Canary site
         run: |
-          echo "CANARY_SITE=$(terminus org:site:list ${ORG_UUID} --format list --upstream ${UPSTREAM_UUID} --field name --tag canary)" >> $GITHUB_ENV
-          echo "CANARY_REPO=$(terminus connection:info ${CANARY_SITE}.dev --fields git_url --format list)" >> $GITHUB_ENV
+          CANARY_SITE=$(terminus org:site:list ${ORG_UUID} --format list --upstream ${UPSTREAM_UUID} --field name --tag canary | head -1)
+          echo "CANARY_SITE=$CANARY_SITE" >> $GITHUB_ENV
+          CANARY_REPO=$(terminus connection:info ${CANARY_SITE}.dev --fields git_url --format list)
+          echo "CANARY_REPO=$CANARY_REPO" >> $GITHUB_ENV
         env:
           ORG_UUID: ${{ secrets.PANTHEON_ORG_UUID }}
           UPSTREAM_UUID: ${{ secrets.PANTHEON_UPSTREAM_UUID }}
