@@ -39,12 +39,15 @@ jobs:
           UPSTREAM_UUID: ${{ secrets.PANTHEON_UPSTREAM_UUID }}
 
       - name: Sync code to site
+        env:
+          GIT_EMAIL: ${{ github.event.commits[0].committer.email }}
+          GIT_NAME: ${{ github.event.commits[0].committer.name }}
         run: |
-          git config --global user.email "github@pantheon.io"
-          git config --global user.name "Pantheon Github Action"
+          git config --global user.email "$GIT_EMAIL"
+          git config --global user.name "$GIT_NAME"
           
           BASE_BRANCH=${GITHUB_REF##*/}
-          echo "BASE_BRANCH=$BASE_BRANCH"
+          echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
           git remote add pantheon $CANARY_REPO
           git pull pantheon $BASE_BRANCH --rebase
           git push -u pantheon HEAD:refs/heads/$BASE_BRANCH
