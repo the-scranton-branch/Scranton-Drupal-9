@@ -38,13 +38,21 @@ jobs:
           ORG_UUID: ${{ secrets.PANTHEON_ORG_UUID }}
           UPSTREAM_UUID: ${{ secrets.PANTHEON_UPSTREAM_UUID }}
 
-      - name: Deployer
+      - name: Sync code to site
         run: |
-          git config --global user.email "root@pantheon.io"
+          git config --global user.email "github@pantheon.io"
           git config --global user.name "Pantheon Github Action"
           
           BASE_BRANCH=${GITHUB_REF##*/}
+          echo "BASE_BRANCH=$BASE_BRANCH"
           git remote add pantheon $CANARY_REPO
           git pull pantheon $BASE_BRANCH --rebase
           git push -u pantheon HEAD:refs/heads/$BASE_BRANCH
-          terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
+
+      - name: Create multidev
+        run: |
+          BRANCH_LEN=$(echo ${#BASE_BRANCH})
+          if [[ $BRANCH_LEN < 12 ]]; then \
+            terminus env:info "$CANARY_SITE.$BASE_BRANCH" \
+            [[ $? == 0 ]] && terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH \
+          fi
