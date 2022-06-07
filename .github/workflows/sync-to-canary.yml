@@ -49,7 +49,7 @@ jobs:
           BASE_BRANCH=${GITHUB_REF##*/}
           echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
           git remote add pantheon $CANARY_REPO
-          git pull pantheon $BASE_BRANCH --rebase
+          git ls-remote --heads origin $BASE_BRANCH && git pull pantheon $BASE_BRANCH --rebase
           git push -u pantheon HEAD:refs/heads/$BASE_BRANCH
 
       - name: Check branch character length
