@@ -49,7 +49,14 @@ jobs:
           git pull pantheon $BASE_BRANCH --rebase
           git push -u pantheon HEAD:refs/heads/$BASE_BRANCH
 
-      - name: Create multidev
+      - name: Check branch character length
+        id: char_check
         run: |
           BRANCH_LEN=$(echo ${#BASE_BRANCH})
-          [[ $BRANCH_LEN < 12 ]] && terminus env:info "$CANARY_SITE.$BASE_BRANCH" && [[ $? == 0 ]] && terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
+          [[ $BRANCH_LEN < 12 ]]
+
+      - name: Create multidev
+        if: ${{ success() && steps.char_check.conclusion == 'success' }}
+        continue-on-error: true
+        run: |
+          terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
