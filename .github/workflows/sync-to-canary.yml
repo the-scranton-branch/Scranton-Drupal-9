@@ -59,4 +59,4 @@ jobs:
         if: ${{ success() && steps.char_check.conclusion == 'success' }}
         continue-on-error: true
         run: |
-          terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
+          terminus env:create $CANARY_SITE.dev $BASE_BRANCH
