@@ -52,7 +52,4 @@ jobs:
       - name: Create multidev
         run: |
           BRANCH_LEN=$(echo ${#BASE_BRANCH})
-          if [[ $BRANCH_LEN < 12 ]]; then \
-            terminus env:info "$CANARY_SITE.$BASE_BRANCH" \
-            [[ $? == 0 ]] && terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH \
-          fi
+          [[ $BRANCH_LEN < 12 ]] && terminus env:info "$CANARY_SITE.$BASE_BRANCH" && [[ $? == 0 ]] && terminus multidev:create $CANARY_SITE.dev $BASE_BRANCH
