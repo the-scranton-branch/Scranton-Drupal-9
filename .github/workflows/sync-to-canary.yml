@@ -43,9 +43,11 @@ jobs:
           GIT_EMAIL: ${{ github.event.commits[0].committer.email }}
           GIT_NAME: ${{ github.event.commits[0].committer.name }}
         run: |
+          # Configure git defaults
           git config --global user.email "$GIT_EMAIL"
           git config --global user.name "$GIT_NAME"
           
+          # Setup remote branch connection
           BASE_BRANCH=${GITHUB_REF##*/}
           echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
           git remote add pantheon $CANARY_REPO
@@ -60,7 +62,7 @@ jobs:
       - name: Check branch character length
         id: char_check
         run: |
-          [[ ${#BASE_BRANCH} < 11 ]] || { echo "Multidev name must be 11 characters or less."; exit $ERRCODE; }
+          if [[ ${#BASE_BRANCH > 11 ]]; then echo "Multidev name must be 11 characters or less."; exit $ERRCODE; fi
 
       - name: Create multidev
         if: ${{ success() && steps.char_check.conclusion == 'success' }}
