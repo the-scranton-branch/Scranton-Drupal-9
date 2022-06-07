@@ -62,7 +62,7 @@ jobs:
       - name: Check branch character length
         id: char_check
         run: |
-          if [[ ${#BASE_BRANCH > 11 ]]; then echo "Multidev name must be 11 characters or less."; exit $ERRCODE; fi
+          if [[ ${#BASE_BRANCH} > 11 ]]; then echo "Multidev name must be 11 characters or less."; exit $ERRCODE; fi
 
       - name: Create multidev
         if: ${{ success() && steps.char_check.conclusion == 'success' }}
