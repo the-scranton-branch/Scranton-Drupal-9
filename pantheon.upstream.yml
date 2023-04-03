@@ -20,11 +20,6 @@ workflows:
       - description: "Install Drupal core"
         script: private/scripts/drush_site_install/drush_site_install.php
         type: webphp
-      - description: "Enable Lockr"
-        script: private/scripts/lockr/lockr_enable.php
-        type: webphp
-      - description: "Authenticate Lockr"
-        script: private/scripts/lockr/lockr_auth.php
         type: webphp
       - description: "Post to Slack after each deploy"
         script: private/scripts/slack/slack_notification.php
