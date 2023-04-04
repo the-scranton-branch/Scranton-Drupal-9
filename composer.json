@@ -82,6 +82,11 @@
     "enable-patching": true,
     "patchLevel": {
       "drupal/core": "-p2"
+    },
+    "patches": {
+      "drupal/default_content": {
+        "3160146 - Add a Normalizer and Denormalizer to support Layout Builder": "https://www.drupal.org/files/issues/2022-12-06/default_content-3160146-53.patch"
+      }
     }
   },
   "config": {
