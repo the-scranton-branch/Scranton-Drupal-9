@@ -20,6 +20,7 @@
     "drupal/core-recommended": "^9.5",
     "drush/drush": "^11",
     "pantheon-systems/drupal-integrations": "^9",
+    "pantheon-systems/upstream-management": "^1.0",
     "pantheon-upstreams/upstream-configuration": "self.version"
   },
   "require-dev": {
@@ -82,6 +83,11 @@
     "enable-patching": true,
     "patchLevel": {
       "drupal/core": "-p2"
+    },
+    "patches": {
+      "drupal/default_content": {
+        "3160146 - Add a Normalizer and Denormalizer to support Layout Builder": "https://www.drupal.org/files/issues/2022-12-06/default_content-3160146-53.patch"
+      }
     }
   },
   "config": {
@@ -91,7 +97,8 @@
       "composer/installers": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "cweagans/composer-patches": true,
-      "drupal/core-composer-scaffold": true
+      "drupal/core-composer-scaffold": true,
+      "pantheon-systems/upstream-management": true
     }
   }
 }
